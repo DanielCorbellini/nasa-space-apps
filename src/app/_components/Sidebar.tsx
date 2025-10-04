@@ -58,30 +58,35 @@ const Sidebar = () => {
   }));
 
   return (
-    <aside className="h-[90vh] w-100 bg-gray-900 text-white flex flex-col p-4 rounded-2xl shadow-lg m-6 overflow-auto">
-      <h2 className="text-2xl font-bold mb-6 text-center">Vale do Taquari</h2>
+    <aside className="h-[90vh] w-120 bg-[#F5B465] border-4 border-[#843505] text-[#843505] flex flex-col items-center p-4 rounded-2xl shadow-lg m-6 overflow-auto">
 
-      <div style={{ width: "100%", height: 200, marginBottom: 20 }}>
+      <h2 className="text-2xl font-bold mb-6 text-center">Dados da Região</h2>
+
+      <div style={{ width: "90%", height: 200, marginBottom: 40, marginRight: 30 }}>
         <h3 className="text-center mb-2">Temperatura (°C)</h3>
-        <ResponsiveContainer>
-          <LineChart data={chartData}>
+       <ResponsiveContainer>
+        <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-            <XAxis dataKey="mes" stroke="#fff" />
-            <YAxis stroke="#fff" />
-            <Tooltip />
+            <XAxis dataKey="mes" stroke="#843505" />
+            <YAxis stroke="#843505" />
+            <Tooltip 
+            contentStyle={{ backgroundColor: '#843505', borderColor: '#843505', color: '#fff' }}
+            labelStyle={{ color: '#F5B465' }}
+            itemStyle={{ color: '#F5B465' }}
+            />
             <Legend />
             <Line type="monotone" dataKey="Temperatura" stroke="#f87171" />
-          </LineChart>
+        </LineChart>
         </ResponsiveContainer>
       </div>
 
-      <div style={{ width: "100%", height: 200, marginBottom: 20 }}>
+      <div style={{ width: "90%", height: 200, marginBottom: 40, marginRight: 30  }}>
         <h3 className="text-center mb-2">Precipitação (mm)</h3>
         <ResponsiveContainer>
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-            <XAxis dataKey="mes" stroke="#fff" />
-            <YAxis stroke="#fff" />
+            <XAxis dataKey="mes" stroke="#843505" />
+            <YAxis stroke="#843505" />
             <Tooltip />
             <Legend />
             <Line type="monotone" dataKey="Precipitacao" stroke="#3b82f6" />
@@ -89,13 +94,13 @@ const Sidebar = () => {
         </ResponsiveContainer>
       </div>
 
-      <div style={{ width: "100%", height: 200 }}>
+      <div style={{ width: "90%", height: 200, marginRight: 30  }}>
         <h3 className="text-center mb-2">Umidade do solo</h3>
         <ResponsiveContainer>
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-            <XAxis dataKey="mes" stroke="#fff" />
-            <YAxis stroke="#fff" />
+            <XAxis dataKey="mes" stroke="#843505" />
+            <YAxis stroke="#843505" />
             <Tooltip />
             <Legend />
             <Line type="monotone" dataKey="Solo" stroke="#34d399" />
