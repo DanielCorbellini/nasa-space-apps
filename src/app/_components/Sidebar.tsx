@@ -16,10 +16,10 @@ export default function Sidebar() {
   const { chartData, loading } = useData();
 
   return (
-    <aside className="h-[90vh] w-120 bg-[#F5B465] border-4 border-[#843505] text-[#843505] flex flex-col items-center p-4 rounded-2xl shadow-lg m-6 overflow-auto">
-      <h2 className="text-2xl font-bold mb-6 text-center">Dados da Região</h2>
+    <aside className="h-[90vh] w-120 bg-[#111827]/80 border-4 backdrop-blur-sm border-[#F5B465] text-[#F5B465] flex flex-col items-center p-4 rounded-2xl shadow-lg m-6 overflow-auto">
+      <h2 className="text-2xl font-bold mb-6 text-center">Local Data</h2>
       <div
-        style={{ width: "90%", height: 200, marginBottom: 40, marginRight: 30 }}
+        style={{ width: "90%", height: 200, marginBottom: 40, marginRight: 5 }}
       >
         {loading ? (
           <div className="spinner"></div>
@@ -30,28 +30,28 @@ export default function Sidebar() {
                 width: "90%",
                 height: 200,
                 marginBottom: 40,
-                marginRight: 30,
+                marginRight: 5,
               }}
             >
-              <h3 className="text-center mb-2">Temperatura (°C)</h3>
+              <h3 className="text-center mb-2">Temperature (°C)</h3>
               <ResponsiveContainer>
                 <LineChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-                  <XAxis dataKey="mes" stroke="#843505" />
-                  <YAxis stroke="#843505" />
+                  <XAxis dataKey="mes" stroke="#F5B465" />
+                  <YAxis stroke="#F5B465" />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: "#843505",
-                      borderColor: "#843505",
+                      backgroundColor: "#F5B465",
+                      borderColor: "#F5B465",
                       color: "#fff",
                     }}
-                    labelStyle={{ color: "#F5B465" }}
-                    itemStyle={{ color: "#F5B465" }}
+                    labelStyle={{ color: "#111827" }}
+                    itemStyle={{ color: "#111827" }}
                   />
                   <Legend />
                   <Line
                     type="monotone"
-                    dataKey="temperatura"
+                    dataKey="temperature"
                     stroke="#f87171"
                   />
                 </LineChart>
@@ -63,36 +63,52 @@ export default function Sidebar() {
                 width: "90%",
                 height: 200,
                 marginBottom: 40,
-                marginRight: 30,
+                marginRight: 5,
               }}
             >
-              <h3 className="text-center mb-2">Precipitação (mm)</h3>
+              <h3 className="text-center mb-2">Precipitation (mm)</h3>
               <ResponsiveContainer>
                 <LineChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-                  <XAxis dataKey="mes" stroke="#843505" />
-                  <YAxis stroke="#843505" />
-                  <Tooltip />
+                  <XAxis dataKey="mes" stroke="#F5B465" />
+                  <YAxis stroke="#F5B465" />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#F5B465",
+                      borderColor: "#F5B465",
+                      color: "#fff",
+                    }}
+                    labelStyle={{ color: "#111827" }}
+                    itemStyle={{ color: "#111827" }}
+                  />
                   <Legend />
                   <Line
                     type="monotone"
-                    dataKey="precipitacao"
+                    dataKey="precipitation"
                     stroke="#3b82f6"
                   />
                 </LineChart>
               </ResponsiveContainer>
             </div>
 
-            <div style={{ width: "90%", height: 200, marginRight: 30 }}>
-              <h3 className="text-center mb-2">Umidade do solo</h3>
+            <div style={{ width: "90%", height: 200, marginRight: 5 }}>
+              <h3 className="text-center mb-2">Soil Moisture</h3>
               <ResponsiveContainer>
                 <LineChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-                  <XAxis dataKey="mes" stroke="#843505" />
-                  <YAxis stroke="#843505" />
-                  <Tooltip />
+                  <XAxis dataKey="mes" stroke="#F5B465" />
+                  <YAxis stroke="#F5B465" />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#F5B465",
+                      borderColor: "#F5B465",
+                      color: "#fff",
+                    }}
+                    labelStyle={{ color: "#111827" }}
+                    itemStyle={{ color: "#111827" }}
+                  />
                   <Legend />
-                  <Line type="monotone" dataKey="solo" stroke="#34d399" />
+                  <Line type="monotone" dataKey="soil" stroke="#34d399" />
                 </LineChart>
               </ResponsiveContainer>
             </div>

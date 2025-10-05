@@ -71,9 +71,9 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   const chartData = nasaData?.T2M
     ? meses.map((mes) => ({
         mes,
-        temperatura: nasaData.T2M[mes],
-        precipitacao: nasaData.PRECTOTCORR[mes],
-        solo: nasaData.GWETROOT[mes],
+        temperature: nasaData.T2M[mes],
+        precipitation: nasaData.PRECTOTCORR[mes],
+        soil: nasaData.GWETROOT[mes],
       }))
     : [];
 

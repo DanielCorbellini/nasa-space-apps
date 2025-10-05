@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-const SEASONS = ["Primavera", "Verão", "Outono", "Inverno"];
+const SEASONS = ["Summer", "Outono", "Inverno", "Spring"];
 
 export default function StationToggle({
   onChange,

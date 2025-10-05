@@ -11,12 +11,12 @@ export default function Rightbar() {
   const [hum, setHum] = useState(60);
 
   return (
-    <aside className="fixed right-4 m-6 top-1/4 w-72 bg-[#111827]/80 backdrop-blur-sm text-white p-4 rounded-lg border border-[#F5B465] shadow-lg z-50">
-      <h2 className="text-lg font-semibold text-[#F5B465] mb-3">Controles</h2>
+    <aside className="fixed right-4 m-6 top-1/4 w-72 bg-[#111827]/80 backdrop-blur-sm text-white p-4 rounded-xl border-4 border-[#F5B465] shadow-lg z-50">
+      <h2 className="text-lg font-semibold text-[#F5B465] mb-3">Controls</h2>
 
       <div>
         <label className="flex justify-between text-sm mb-1">
-          <span>Irrigação</span>
+          <span>Irrigation</span>
           <span className="font-mono">{hum}%</span>
         </label>
         <input
@@ -31,7 +31,7 @@ export default function Rightbar() {
 
       <div className="mb-4">
         <label className="flex justify-between text-sm mb-1">
-          <span>Fertilizante</span>
+          <span>Fertilizer</span>
           <span className="font-mono">{rain}%</span>
         </label>
         <input

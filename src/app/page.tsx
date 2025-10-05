@@ -7,32 +7,46 @@ import Topbar from "./_components/Topbar";
 import StationToggle from "./_components/StationToogle";
 import LoadingScreen from "./_components/LoadingScreen";
 import ResultsScreen from "./_components/ResultsScreen";
+import CropButton from "./_components/CropButton";
 
 export default function Home() {
-  const [season, setSeason] = useState("Primavera");
+  const [currentMonth, setCurrentMonth] = useState("JAN");
+  const [crop, setCrop] = useState({
+    name: "Wheat",
+    src: "/trigo.png",
+    hoverSrc: "/trigo-hover.png",
+    fertilizer: "Medium",
+    soilMoisture: "High",
+    water: "Moderate",
+  });
+  const [season, setSeason] = useState("Summer");
   const [resultsData, setResultsData] = useState<any[]>([]);
   const [hovered, setHovered] = useState(false);
   const [gameMode, setGameMode] = useState<"main" | "loading" | "results">(
     "main"
   );
 
+  const months = [
+    "JAN", "FEB", "MAR", "APR",
+    "MAY", "JUN", "JUL", "AUG",
+    "SEP", "OCT", "NOV", "DEC"
+  ];
+
   function handleSeasonChange(newSeason: string) {
     setSeason(newSeason);
+
+    // Advance current month by 3
+    const currentIndex = months.indexOf(currentMonth);
+    const newIndex = (currentIndex + 3) % 12;
+    setCurrentMonth(months[newIndex]);
+
     setGameMode("loading");
 
-    // simula processamento e popula dados de resultado
     setTimeout(() => {
-      const sample = [
-        { mes: "Jan", temperatura: 22, precipitacao: 30, solo: 60 },
-        { mes: "Fev", temperatura: 24, precipitacao: 25, solo: 62 },
-        { mes: "Mar", temperatura: 20, precipitacao: 40, solo: 58 },
-        { mes: "Abr", temperatura: 16, precipitacao: 55, solo: 55 },
-        { mes: "Mai", temperatura: 14, precipitacao: 70, solo: 52 },
-      ];
-      setResultsData(sample);
       setGameMode("results");
     }, 1400);
   }
+
 
   return (
     <div className="relative h-auto min-h-screen">
@@ -44,28 +58,13 @@ export default function Home() {
           className="absolute inset-0 w-full h-full object-cover z-[-10]"
         />
 
-        <button
-          type="button"
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 select-none focus:outline-none"
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-          onClick={() => console.log("Trigo button clicked")}
-        >
-          <img
-            src={hovered ? "/trigo-hover.png" : "/trigo.png"}
-            alt="Trigo"
-            width={414}
-            height={330}
-            className="transition-all duration-300 ease-in-out cursor-pointer"
-            draggable="false"
-          />
-        </button>
+        <CropButton />
 
-        <h1 className="text-center text-6xl text-[#F5B465] font-bold pt-4">
+        <h1 className="text-center text-6xl text-[#111827d6] font-bold pt-4">
           Vale do Taquari
         </h1>
 
-        <Topbar />
+        <Topbar currentMonth={currentMonth} />
 
         <div className="-mt-32">
           <Sidebar />
