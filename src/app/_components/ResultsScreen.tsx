@@ -1,138 +1,95 @@
-import React from "react";
-
-type MonthData = {
-  mes: string;
-  temperatura: number;
-  precipitacao: number;
-  solo: number;
-};
+interface ResultsScreenProps {
+  season: string;
+  success: number;
+  feedback: string[];
+  parameters: Record<string, number>;
+  onClose?: () => void;
+}
 
 export default function ResultsScreen({
   season,
-  data,
+  success,
+  feedback,
+  parameters,
   onClose,
-}: {
-  season: string;
-  data: MonthData[];
-  onClose?: () => void;
-}) {
-  const avg = (arr: number[]) =>
-    arr.length ? Math.round(arr.reduce((a, b) => a + b, 0) / arr.length) : 0;
+}: ResultsScreenProps) {
+  const successColor =
+    success < 35 ? "text-red-500" : success < 70 ? "text-yellow-400" : "text-green-400";
 
-  const avgTemp = avg(data.map((d) => d.temperatura));
-  const avgPrec = avg(data.map((d) => d.precipitacao));
-  const avgSoil = avg(data.map((d) => d.solo));
+  // Helper for bar color
+  const getBarColor = (val: number) => {
+    if (val < 0.35) return "bg-red-500";
+    if (val < 0.7) return "bg-yellow-400";
+    return "bg-green-400";
+  };
+
+  // Only keep fertilizer and irrigation
+  const displayParams = {
+    Fertilizer: Math.max(0, Math.min(1, parameters.Fertilizer || 0)),
+    Irrigation: Math.max(0, Math.min(1, parameters.Irrigation || 0)),
+  };
 
   return (
     <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-6">
-      <div className="w-full max-w-5xl bg-white/5 backdrop-blur-md rounded-xl p-6 text-white shadow-lg">
-        <div className="flex items-start justify-between">
+      <div className="w-full max-w-2xl bg-white/5 backdrop-blur-md rounded-xl p-8 text-white shadow-lg flex flex-col items-center gap-6">
+        {/* Header */}
+        <div className="w-full flex justify-between items-start">
           <div>
             <h2 className="text-3xl font-bold text-[#F5B465]">
-              Resultados — {season}
+              Results — {season}
             </h2>
             <p className="text-sm text-green-200 mt-1">
-              Resumo da simulação e métricas principais
+              Simulation outcome based on your crop choices
             </p>
           </div>
-          <div className="flex gap-2">
-            <button
-              onClick={onClose}
-              className="px-3 py-1 rounded bg-white/10 hover:bg-white/20 text-sm cursor-pointer"
-            >
-              Fechar
-            </button>
-          </div>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 bg-white/3 rounded-lg">
-            <div className="text-sm text-gray-300">Temperatura média</div>
-            <div className="text-2xl font-semibold text-[#F5B465]">
-              {avgTemp}°C
-            </div>
-          </div>
-          <div className="p-4 bg-white/3 rounded-lg">
-            <div className="text-sm text-gray-300">Precipitação média</div>
-            <div className="text-2xl font-semibold text-[#F5B465]">
-              {avgPrec}%
-            </div>
-          </div>
-          <div className="p-4 bg-white/3 rounded-lg">
-            <div className="text-sm text-gray-300">Índice de solo</div>
-            <div className="text-2xl font-semibold text-[#F5B465]">
-              {avgSoil}
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-6 grid md:grid-cols-2 gap-6">
-          <div className="p-4 bg-white/3 rounded-lg">
-            <div className="text-sm text-gray-300 mb-3">
-              Gráfico mensal — Temperatura
-            </div>
-            <div className="w-full h-40 flex items-end gap-2">
-              {/* mini-bar chart usando SVG */}
-              {data.map((d, i) => {
-                const h = Math.max(4, ((d.temperatura + 10) / 60) * 100); // escala simples
-                return (
-                  <div key={i} className="flex flex-col items-center gap-1">
-                    <div
-                      className="w-6 bg-gradient-to-t from-[#F5B465] to-[#843505] rounded"
-                      style={{ height: `${h}%` }}
-                      title={`${d.mes}: ${d.temperatura}°C`}
-                    />
-                    <div className="text-[10px] text-gray-300">
-                      {d.mes.slice(0, 3)}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="p-4 bg-white/3 rounded-lg">
-            <div className="text-sm text-gray-300 mb-3">Detalhes mensais</div>
-            <div className="max-h-40 overflow-auto">
-              <table className="w-full text-left text-sm">
-                <thead>
-                  <tr className="text-gray-300">
-                    <th className="pb-2 pr-4">Mês</th>
-                    <th className="pb-2 pr-4">Temp (°C)</th>
-                    <th className="pb-2 pr-4">Chuva (%)</th>
-                    <th className="pb-2">Solo</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.map((d, i) => (
-                    <tr key={i} className="odd:bg-white/2">
-                      <td className="py-1 pr-4">{d.mes}</td>
-                      <td className="py-1 pr-4">{d.temperatura}</td>
-                      <td className="py-1 pr-4">{d.precipitacao}</td>
-                      <td className="py-1">{d.solo}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-6 flex justify-end gap-3">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 rounded bg-white/10 hover:bg-white/20 cursor-pointer"
+        {/* Success Percentage */}
+        <div className="flex flex-col items-center justify-center text-center py-6">
+          <div
+            className={`text-7xl font-extrabold drop-shadow-lg transition-colors duration-500 ${successColor}`}
           >
-            Voltar
-          </button>
+            {Math.round(success)}%
+          </div>
+          <div className="text-lg text-gray-300 mt-2 font-medium">
+            Crop Success Rate
+          </div>
+        </div>
+
+        {/* Feedback Messages */}
+        <div className="flex flex-col gap-2 text-gray-200 text-center">
+          {feedback?.map((msg, i) => (
+            <div key={i} className="text-xl">
+              {msg}
+            </div>
+          ))}
+        </div>
+
+        {/* Fertilizer & Irrigation Bars */}
+        <div className="w-full mt-4 flex flex-col gap-3">
+          {Object.entries(displayParams).map(([key, val]) => (
+            <div key={key} className="flex flex-col gap-1">
+              <div className="flex justify-between text-sm text-gray-300">
+                <span>{key}</span>
+                <span>{Math.round(val * 100)}%</span>
+              </div>
+              <div className="w-full h-4 bg-white/10 rounded-full">
+                <div
+                  className={`h-4 rounded-full ${getBarColor(val)}`}
+                  style={{ width: `${val * 100}%` }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* New Simulation Button */}
+        <div className="flex justify-end w-full gap-3 mt-6">
           <button
             className="px-4 py-2 rounded bg-gradient-to-r from-[#F5B465] to-[#843505] text-black font-semibold cursor-pointer"
-            onClick={() => {
-              // placeholder: iniciar nova simulação
-              onClose?.();
-            }}
+            onClick={() => onClose?.()}
           >
-            Nova simulação
+            New Simulation
           </button>
         </div>
       </div>

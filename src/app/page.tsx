@@ -9,6 +9,7 @@ import ResultsScreen from "./_components/ResultsScreen";
 import Sidebar from "./_components/Sidebar";
 import StationToggle from "./_components/StationToggle";
 import Topbar from "./_components/Topbar";
+import { calculateCropSuccess } from "./lib/cropScorer";
 
 export default function Home() {
   const { chartData, loading } = useData();
@@ -16,13 +17,15 @@ export default function Home() {
   const [currentMonth, setCurrentMonth] = useState("JAN");
   const monthData = chartData.find((d) => d.mes === currentMonth);
   const [season, setSeason] = useState("Summer");
-  const [resultsData, setResultsData] = useState<any[]>([]);
   const [gameMode, setGameMode] = useState<"main" | "loading" | "results">(
     "main"
   );
   const [rain, setRain] = useState(40);
   const [hum, setHum] = useState(60);
-
+  const [successPercentage, setSuccessPercentage] = useState(0.0);
+  const [successFeedback, setSuccessFeedback] = useState<string[]>([]);
+  const [successParameters, setSuccessParameters] = useState<Record<string, number>>({});
+  
   const [crop, setCrop] = useState({
     name: "Wheat",
     src: "/trigo.png",
@@ -30,6 +33,7 @@ export default function Home() {
     fertilizer: "Medium",
     soilMoisture: "High",
     water: "Moderate",
+    temp: "15-25°C",
   });
 
   const months = [
@@ -47,8 +51,7 @@ export default function Home() {
     "DEC",
   ];
 
-  function handleSeasonChange(newSeason: string) {
-    // hum, rain, crop, mothData
+ function handleSeasonChange(newSeason: string) {
     setSeason(newSeason);
 
     const currentIndex = months.indexOf(currentMonth);
@@ -56,6 +59,13 @@ export default function Home() {
     setCurrentMonth(months[newIndex]);
 
     setGameMode("loading");
+
+    const player = { hum, rain };
+    const result = calculateCropSuccess(monthData, player, crop);
+
+    setSuccessPercentage(result.success);
+    setSuccessFeedback(result.feedback);
+    setSuccessParameters(result.parameters); // <— store parameters
 
     setTimeout(() => {
       setGameMode("results");
@@ -95,17 +105,15 @@ export default function Home() {
         </div>
       )}
 
-      {gameMode === "results" && (
+      {gameMode === "results" && successPercentage !== null && (
         <ResultsScreen
           season={season}
-          data={resultsData}
+          success={successPercentage}
+          feedback={successFeedback}
+          parameters={successParameters} // <— pass parameters
           onClose={() => setGameMode("main")}
         />
       )}
-
-      <div className="absolute bottom-4 left-4 text-white">
-        Current crop: <strong>{crop.name}</strong>
-      </div>
     </div>
   );
 }

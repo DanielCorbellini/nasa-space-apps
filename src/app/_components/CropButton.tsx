@@ -8,6 +8,7 @@ interface Crop {
 	fertilizer: string;
 	soilMoisture: string;
 	water: string;
+	temp: string;
 }
 
 interface CropButtonProps {
@@ -46,6 +47,7 @@ export default function CropButton({ crop, setCrop }: CropButtonProps) {
 						<li>Fertilizer: {crop.fertilizer}</li>
 						<li>Soil Moisture: {crop.soilMoisture}</li>
 						<li>Water Needs: {crop.water}</li>
+						<li>Temperature: {crop.temp}</li>
 					</ul>
 				</div>
 			)}

@@ -10,6 +10,7 @@ export default function CropDialog({ onClose, onSelect }) {
       fertilizer: "High",
       soilMoisture: "75%",
       water: "Moderate",
+      temp: "15-25°C",
     },
     {
       name: "Tomato",
@@ -19,6 +20,7 @@ export default function CropDialog({ onClose, onSelect }) {
       fertilizer: "Moderate",
       soilMoisture: "Medium",
       water: "High",
+      temp: "18-28°C",
     },
   ];
 
