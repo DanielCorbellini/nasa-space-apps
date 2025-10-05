@@ -16,10 +16,16 @@ export default function Topbar() {
       </ul> */}
 
       <ul className="flex w-full justify-center items-center gap-8">
-        <li>{chartData[0]?.mes}</li>
-        <li>{chartData[0]?.temperatura}</li>
-        <li>{chartData[0]?.precipitacao}</li>
-        <li>{chartData[0]?.solo}</li>
+        {loading ? (
+          <div className="spinner w-0.5"></div>
+        ) : (
+          <>
+            <li>{chartData[0]?.mes}</li>
+            <li>{chartData[0]?.temperatura}</li>
+            <li>{chartData[0]?.precipitacao}</li>
+            <li>{chartData[0]?.solo}</li>
+          </>
+        )}
       </ul>
     </div>
   );
