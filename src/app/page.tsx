@@ -9,7 +9,7 @@ import ResultsScreen from "./_components/ResultsScreen";
 import Sidebar from "./_components/Sidebar";
 import StationToggle from "./_components/StationToggle";
 import Topbar from "./_components/Topbar";
-import { calculateCropSuccess } from "./lib/cropScorer";
+import { calculateCropSuccess } from "@/app/_lib/cropScorer";
 import MapScreen from "./_components/MapScreen";
 
 export default function Home() {

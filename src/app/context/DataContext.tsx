@@ -41,8 +41,9 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       }
 
       setNasaData(data.properties.parameter);
-    } catch (err: any) {
-      setError(err.message || "Erro ao buscar dados da NASA POWER");
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      setError(errorMessage || "Erro ao buscar dados da NASA POWER");
       setNasaData(null);
     } finally {
       setLoading(false);
