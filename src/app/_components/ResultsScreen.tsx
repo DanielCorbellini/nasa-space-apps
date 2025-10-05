@@ -14,7 +14,11 @@ export default function ResultsScreen({
   onClose,
 }: ResultsScreenProps) {
   const successColor =
-    success < 35 ? "text-red-500" : success < 70 ? "text-yellow-400" : "text-green-400";
+    success < 35
+      ? "text-red-500"
+      : success < 70
+      ? "text-yellow-400"
+      : "text-green-400";
 
   // Helper for bar color
   const getBarColor = (val: number) => {

@@ -19,6 +19,7 @@ export default function Home() {
   const [currentMonth, setCurrentMonth] = useState("JAN");
   const monthData = chartData.find((d) => d.mes === currentMonth);
   const [season, setSeason] = useState("Summer");
+  const [lastSeason, setLastSeason] = useState();
   const [gameMode, setGameMode] = useState<"main" | "loading" | "results">(
     "main"
   );
@@ -57,7 +58,7 @@ export default function Home() {
 
   function handleSeasonChange(newSeason: string) {
     setSeason(newSeason);
-
+    setLastSeason(season);
     const currentIndex = months.indexOf(currentMonth);
     const newIndex = (currentIndex + 3) % 12;
     setCurrentMonth(months[newIndex]);
@@ -98,9 +99,7 @@ export default function Home() {
 
       <CropButton crop={crop} setCrop={setCrop} />
 
-      <h1 className="text-center text-6xl text-[#111827d6] font-bold pt-4">
-        
-      </h1>
+      <h1 className="text-center text-6xl text-[#111827d6] font-bold pt-4"></h1>
 
       <Topbar
         monthData={monthData}
@@ -124,7 +123,7 @@ export default function Home() {
 
       {gameMode === "results" && successPercentage !== null && (
         <ResultsScreen
-          season={season}
+          season={lastSeason}
           success={successPercentage}
           feedback={successFeedback}
           parameters={successParameters} // <— pass parameters
