@@ -1,19 +1,23 @@
 "use client";
 import { useState } from "react";
 
-const SEASONS = ["Summer", "Fall", "Winter", "Spring"];
+const SEASONS_SOUTH = ["Summer", "Fall", "Winter", "Spring"];
+const SEASONS_NORTH = ["Winter", "Spring", "Summer", "Fall"];
 
 export default function StationToggle({
   onChange,
+  lat,
 }: {
   onChange?: (s: string) => void;
 }) {
   const [idx, setIdx] = useState(0);
 
+  const seasons = lat >= 0 ? SEASONS_NORTH : SEASONS_SOUTH;
+
   function next() {
-    const ni = (idx + 1) % SEASONS.length;
+    const ni = (idx + 1) % seasons.length;
     setIdx(ni);
-    onChange?.(SEASONS[ni]);
+    onChange?.(seasons[ni]);
   }
 
   return (
@@ -33,7 +37,7 @@ export default function StationToggle({
         >
           <path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8" />
         </svg>
-        <span className="select-none">Simulate {SEASONS[idx]}</span>
+        <span className="select-none">Simulate {seasons[idx]}</span>
       </button>
     </div>
   );

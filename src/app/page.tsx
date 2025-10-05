@@ -29,7 +29,7 @@ export default function Home() {
   const [successParameters, setSuccessParameters] = useState<
     Record<string, number>
   >({});
-
+  console.log(location);
   const [crop, setCrop] = useState({
     name: "Wheat",
     src: "/trigo.png",
@@ -106,6 +106,7 @@ export default function Home() {
         monthData={monthData}
         loading={loading}
         currentMonth={currentMonth}
+        lat={location[0]}
       />
 
       <div className="-mt-32">
@@ -113,7 +114,7 @@ export default function Home() {
       </div>
 
       <Rightbar rain={rain} hum={hum} setHum={setHum} setRain={setRain} />
-      <StationToggle onChange={handleSeasonChange} />
+      <StationToggle onChange={handleSeasonChange} lat={location[0]} />
 
       {gameMode === "loading" && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">

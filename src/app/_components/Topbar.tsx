@@ -14,15 +14,24 @@ interface TopbarProps {
   loading: boolean;
 }
 
-export const SOUTH_BRAZIL_SEASONS = [
+export const SOUTH_HEMISPHERE_SEASONS = [
   { name: "Summer", months: ["DEC", "JAN", "FEB"] },
-  { name: "Autumn", months: ["MAR", "APR", "MAY"] },
+  { name: "Fall", months: ["MAR", "APR", "MAY"] },
   { name: "Winter", months: ["JUN", "JUL", "AUG"] },
   { name: "Spring", months: ["SEP", "OCT", "NOV"] },
 ];
 
-export const getSeasonByMonth = (month: string) => {
-  const season = SOUTH_BRAZIL_SEASONS.find((s) => s.months.includes(month));
+export const NORTH_HEMISPHERE_SEASONS = [
+  { name: "Winter", months: ["DEC", "JAN", "FEB"] },
+  { name: "Spring", months: ["MAR", "APR", "MAY"] },
+  { name: "Summer", months: ["JUN", "JUL", "AUG"] },
+  { name: "Fall", months: ["SEP", "OCT", "NOV"] },
+];
+
+export const getSeasonByMonth = (month: string, lat: number) => {
+  const seasonMonths =
+    lat >= 0 ? NORTH_HEMISPHERE_SEASONS : SOUTH_HEMISPHERE_SEASONS;
+  const season = seasonMonths.find((s) => s.months.includes(month));
   return season ? season.name : "";
 };
 
@@ -30,8 +39,9 @@ export default function Topbar({
   monthData,
   currentMonth,
   loading,
+  lat,
 }: TopbarProps) {
-  const season = getSeasonByMonth(currentMonth);
+  const season = getSeasonByMonth(currentMonth, lat);
 
   const renderContent = () => {
     if (loading || !monthData) return <div className="spinner w-0.5"></div>;
