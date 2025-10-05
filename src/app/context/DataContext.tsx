@@ -12,13 +12,14 @@ interface DataContextType {
   chartData: any[];
   loading: boolean;
   error: string | null;
+  fetchData: (lat: number, lon: number) => Promise<void>;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export function DataProvider({ children }: { children: React.ReactNode }) {
   const [nasaData, setNasaData] = useState<NasaData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function fetchNASAPowerData(lat: number, lon: number) {
@@ -30,6 +31,8 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     )}&community=AG&longitude=${lon}&latitude=${lat}&format=JSON`;
 
     try {
+      setLoading(true);
+      setError(null);
       const res = await fetch(url);
       const data = await res.json();
 
@@ -37,22 +40,15 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         throw new Error("Dados inválidos da NASA POWER");
       }
 
-      return data.properties.parameter;
+      setNasaData(data.properties.parameter);
     } catch (err: any) {
-      setError(err.message);
-      return null;
+      setError(err.message || "Erro ao buscar dados da NASA POWER");
+      setNasaData(null);
+    } finally {
+      setLoading(false);
     }
   }
 
-  useEffect(() => {
-    (async () => {
-      const data = await fetchNASAPowerData(-29.7, -53.8);
-      if (data) setNasaData(data);
-      setLoading(false);
-    })();
-  }, []);
-
-  // Transforma os dados em formato de gráfico
   const meses = [
     "JAN",
     "FEB",
@@ -78,13 +74,21 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     : [];
 
   return (
-    <DataContext.Provider value={{ nasaData, chartData, loading, error }}>
+    <DataContext.Provider
+      value={{
+        nasaData,
+        chartData,
+        loading,
+        error,
+        fetchData: fetchNASAPowerData,
+      }}
+    >
       {children}
     </DataContext.Provider>
   );
 }
 
-// Hook de acesso
+// Hook personalizado
 export function useData() {
   const context = useContext(DataContext);
   if (!context) {

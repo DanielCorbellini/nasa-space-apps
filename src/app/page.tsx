@@ -10,10 +10,12 @@ import Sidebar from "./_components/Sidebar";
 import StationToggle from "./_components/StationToggle";
 import Topbar from "./_components/Topbar";
 import { calculateCropSuccess } from "./lib/cropScorer";
+import MapScreen from "./_components/MapScreen";
 
 export default function Home() {
-  const { chartData, loading } = useData();
-
+  const { chartData, loading, fetchData } = useData();
+  const [location, setLocation] = useState<[number, number] | null>(null);
+  const [locationName, setLocationName] = useState("");
   const [currentMonth, setCurrentMonth] = useState("JAN");
   const monthData = chartData.find((d) => d.mes === currentMonth);
   const [season, setSeason] = useState("Summer");
@@ -24,8 +26,10 @@ export default function Home() {
   const [hum, setHum] = useState(60);
   const [successPercentage, setSuccessPercentage] = useState(0.0);
   const [successFeedback, setSuccessFeedback] = useState<string[]>([]);
-  const [successParameters, setSuccessParameters] = useState<Record<string, number>>({});
-  
+  const [successParameters, setSuccessParameters] = useState<
+    Record<string, number>
+  >({});
+
   const [crop, setCrop] = useState({
     name: "Wheat",
     src: "/trigo.png",
@@ -51,7 +55,7 @@ export default function Home() {
     "DEC",
   ];
 
- function handleSeasonChange(newSeason: string) {
+  function handleSeasonChange(newSeason: string) {
     setSeason(newSeason);
 
     const currentIndex = months.indexOf(currentMonth);
@@ -70,6 +74,18 @@ export default function Home() {
     setTimeout(() => {
       setGameMode("results");
     }, 1400);
+  }
+
+  if (!location) {
+    return (
+      <MapScreen
+        onSelectLocation={(lat, lon) => {
+          setLocation([lat, lon]);
+          fetchData(lat, lon); // 👈 busca os dados assim que o usuário escolhe
+        }}
+        setLocationName={setLocationName}
+      />
+    );
   }
 
   return (

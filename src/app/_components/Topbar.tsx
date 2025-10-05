@@ -41,7 +41,7 @@ export default function Topbar({
         <li>{season}</li>
         <li>{monthData.temperature}°C</li>
         <li>{monthData.precipitation} mm/day</li>
-        <li>Soil {monthData.soil * 100} %</li>
+        <li>Soil {Math.round(monthData.soil * 100)} %</li>
       </>
     );
   };
