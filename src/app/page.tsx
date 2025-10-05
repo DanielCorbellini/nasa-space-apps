@@ -99,7 +99,7 @@ export default function Home() {
       <CropButton crop={crop} setCrop={setCrop} />
 
       <h1 className="text-center text-6xl text-[#111827d6] font-bold pt-4">
-        Vale do Taquari
+        
       </h1>
 
       <Topbar
@@ -109,7 +109,7 @@ export default function Home() {
         lat={location[0]}
       />
 
-      <div className="-mt-32">
+      <div className="-mt-24">
         <Sidebar />
       </div>
 
