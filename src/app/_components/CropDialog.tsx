@@ -1,6 +1,10 @@
 import React from "react";
+interface CropDialogProps {
+  onClose: () => void;
+  onSelect: (crop: string) => void;
+}
 
-export default function CropDialog({ onClose, onSelect }) {
+export default function CropDialog({ onClose, onSelect }: CropDialogProps) {
   const options = [
     {
       name: "Wheat",
@@ -29,7 +33,7 @@ export default function CropDialog({ onClose, onSelect }) {
       <div className="bg-[#111827]/80 border-4 rounded-xl border-[#F5B465] text-[#F5B465] p-6 w-96 shadow-lg">
         <h2 className="text-xl font-bold mb-4 text-center">Select a Crop</h2>
         <ul className="flex gap-3">
-          {options.map((opt) => (
+          {options.map((opt: any) => (
             <li key={opt.name} className="w-full text-center">
               <button
                 className="flex flex-col items-center gap-2 w-full hover:bg-[#111827c2] rounded-xl text-[#F5B465]p-3 cursor-pointer"

@@ -4,7 +4,15 @@ import "leaflet/dist/leaflet.css";
 import { useState, useEffect } from "react";
 import * as turf from "@turf/turf";
 
-export default function MapScreen({ onSelectLocation, setLocationName }) {
+interface MapScreenProps {
+  onSelectLocation: (lat: any, lng: any) => void;
+  setLocationName: (locationName: string) => void;
+}
+
+export default function MapScreen({
+  onSelectLocation,
+  setLocationName,
+}: MapScreenProps) {
   const [selected, setSelected] = useState<[number, number] | null>(null);
   const [landGeoJSON, setLandGeoJSON] = useState<any>(null);
 
@@ -18,7 +26,7 @@ export default function MapScreen({ onSelectLocation, setLocationName }) {
 
   function LocationPicker() {
     useMapEvents({
-      click(e) {
+      click(e: any) {
         const { lat, lng } = e.latlng;
 
         if (!landGeoJSON) return;
@@ -26,7 +34,7 @@ export default function MapScreen({ onSelectLocation, setLocationName }) {
         const point = turf.point([lng, lat]);
 
         // 🔹 1. Procurar o polígono de terra que contém o ponto
-        const landFeature = landGeoJSON.features.some((feature) =>
+        const landFeature = landGeoJSON.features.some((feature: any) =>
           turf.booleanPointInPolygon(point, feature)
         );
 
@@ -37,7 +45,7 @@ export default function MapScreen({ onSelectLocation, setLocationName }) {
 
         // 🔹 2. Se for terra, salva e passa ao callback
         setSelected([lat, lng]);
-        setLocationName("landFeature.properties.name");
+        setLocationName("");
         onSelectLocation(lat, lng);
       },
     });
@@ -46,19 +54,20 @@ export default function MapScreen({ onSelectLocation, setLocationName }) {
 
   return (
     <div className="relative w-full h-screen">
+      {/* @ts-ignore */}
       <MapContainer
         center={[0, 0]}
         zoom={2}
         className="w-full h-full z-0"
         style={{ background: "#cfe0ff" }}
       >
+        {/* @ts-ignore */}
         <TileLayer
           attribution='&copy; <a href="https://carto.com/">CARTO</a>'
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         />
         {landGeoJSON && <LocationPicker />}
       </MapContainer>
-
       <div className="absolute top-6 left-15 bg-white/80 p-3 rounded shadow-lg">
         <h2 className="font-semibold text-gray-800">Choose your farm</h2>
         <p className="text-sm text-gray-600">

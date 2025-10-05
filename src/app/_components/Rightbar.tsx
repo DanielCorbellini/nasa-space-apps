@@ -1,11 +1,18 @@
 "use client";
 
-import { useState } from "react";
+interface RightBarProps {
+  rain: number;
+  hum: number;
+  setHum: (num: number) => void;
+  setRain: (num: number) => void;
+}
 
-// Irrigação
-// Fertilizante
-
-export default function Rightbar({ rain, hum, setHum, setRain }) {
+export default function Rightbar({
+  rain,
+  hum,
+  setHum,
+  setRain,
+}: RightBarProps) {
   return (
     <aside className="fixed right-4 m-6 top-1/4 w-72 bg-[#111827]/80 backdrop-blur-sm text-white p-4 rounded-xl border-4 border-[#F5B465] shadow-lg z-50">
       <h2 className="text-lg font-semibold text-[#F5B465] mb-3">Controls</h2>
