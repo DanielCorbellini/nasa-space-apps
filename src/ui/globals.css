@@ -1,1 +1,74 @@
 @import "tailwindcss";
+/* ...existing code... */
+
+/* Slider custom styling (WebKit + Firefox) */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  height: 28px;
+}
+
+/* Track */
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px;
+  background: linear-gradient(90deg, #f5b465, #843505);
+  border-radius: 9999px;
+}
+input[type="range"]::-moz-range-track {
+  height: 8px;
+  background: linear-gradient(90deg, #f5b465, #843505);
+  border-radius: 9999px;
+}
+
+/* Thumb */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: #fff;
+  border: 3px solid #f5b465;
+  margin-top: -5px; /* center on track */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: #fff;
+  border: 3px solid #f5b465;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* Focus */
+input[type="range"]:focus {
+  outline: none;
+}
+input[type="range"]:focus::-webkit-slider-runnable-track {
+  box-shadow: 0 0 0 4px rgba(245, 180, 101, 0.12);
+}
+
+.spinner {
+  margin: 3.2rem auto 1.6rem;
+  width: 60px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: conic-gradient(#ffffff 10%, #843505 30%, transparent 70%);
+  animation: spin 1s linear infinite;
+  position: relative;
+}
+
+.spinner::before {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  background-color: #f5b465;
+  border-radius: 50%;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
