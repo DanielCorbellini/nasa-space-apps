@@ -1,10 +1,17 @@
 "use client";
 
 import React from "react";
-import { useData } from "../context/DataContext";
+
+interface MonthData {
+  temperature: number | string;
+  precipitation: number | string;
+  soil: number;
+}
 
 interface TopbarProps {
   currentMonth: string;
+  monthData: MonthData;
+  loading: boolean;
 }
 
 export const SOUTH_BRAZIL_SEASONS = [
@@ -19,14 +26,11 @@ export const getSeasonByMonth = (month: string) => {
   return season ? season.name : "";
 };
 
-
-export default function Topbar({ currentMonth }: TopbarProps) {
-  const { chartData, loading } = useData();
-
-  console.log(chartData);
-  
-  const monthData = chartData.find((d) => d.mes === currentMonth);
-  console.log("Month Data:", monthData);
+export default function Topbar({
+  monthData,
+  currentMonth,
+  loading,
+}: TopbarProps) {
   const season = getSeasonByMonth(currentMonth);
 
   const renderContent = () => {
@@ -35,9 +39,9 @@ export default function Topbar({ currentMonth }: TopbarProps) {
     return (
       <>
         <li>{season}</li>
-        <li>{monthData.temperature}</li>
-        <li>{monthData.precipitation}</li>
-        <li>{monthData.soil}</li>
+        <li>{monthData.temperature}°C</li>
+        <li>{monthData.precipitation} mm/day</li>
+        <li>Soil {monthData.soil * 100} %</li>
       </>
     );
   };

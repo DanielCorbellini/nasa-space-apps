@@ -5,11 +5,7 @@ import { useState } from "react";
 // Irrigação
 // Fertilizante
 
-export default function Rightbar() {
-  const [temp, setTemp] = useState(22);
-  const [rain, setRain] = useState(40);
-  const [hum, setHum] = useState(60);
-
+export default function Rightbar({ rain, hum, setHum, setRain }) {
   return (
     <aside className="fixed right-4 m-6 top-1/4 w-72 bg-[#111827]/80 backdrop-blur-sm text-white p-4 rounded-xl border-4 border-[#F5B465] shadow-lg z-50">
       <h2 className="text-lg font-semibold text-[#F5B465] mb-3">Controls</h2>
