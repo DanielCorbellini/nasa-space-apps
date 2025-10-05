@@ -9,6 +9,7 @@ export default function StationToggle({
   lat,
 }: {
   onChange?: (s: string) => void;
+  lat: number;
 }) {
   const [idx, setIdx] = useState(0);
 

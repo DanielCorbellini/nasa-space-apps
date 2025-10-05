@@ -12,6 +12,7 @@ interface TopbarProps {
   currentMonth: string;
   monthData: MonthData;
   loading: boolean;
+  lat: number;
 }
 
 export const SOUTH_HEMISPHERE_SEASONS = [

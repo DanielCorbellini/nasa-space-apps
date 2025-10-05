@@ -19,7 +19,7 @@ export default function Home() {
   const [currentMonth, setCurrentMonth] = useState("JAN");
   const monthData = chartData.find((d) => d.mes === currentMonth);
   const [season, setSeason] = useState("Summer");
-  const [lastSeason, setLastSeason] = useState();
+  const [lastSeason, setLastSeason] = useState<string>("");
   const [gameMode, setGameMode] = useState<"main" | "loading" | "results">(
     "main"
   );
@@ -80,7 +80,7 @@ export default function Home() {
   if (!location) {
     return (
       <MapScreen
-        onSelectLocation={(lat, lon) => {
+        onSelectLocation={(lat: number, lon: number) => {
           setLocation([lat, lon]);
           fetchData(lat, lon); // 👈 busca os dados assim que o usuário escolhe
         }}
